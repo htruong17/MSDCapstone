@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "msdcapstone": {
+      "hosting": {
+        "MSDCapstone": [
+          "msdcapstone"
+        ]
+      }
+    }
+  }
+}
