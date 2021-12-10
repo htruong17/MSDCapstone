@@ -1,0 +1,32 @@
+  <div class="container" *ngIf="event && !registered">
+      <h1 style="font-size: 26px;">{{event.eventName}}</h1>
+    <div class="row">
+      <mat-card class="offset-md-1 col-md-5">
+        <h2>Register</h2>
+        <mat-card-content>
+          Click to Register!
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button routerLink="register">Register</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <div class="container" *ngIf="event && registered">
+    <div style="width: 80%; margin: 0px auto">
+      <h2>You are registered!</h2>
+      <p>Please keep an eye out of more announcements </p>
+      <!-- <button mat-raised-button color="accent" routerLink="/events">Go back</button> -->
+    </div>
+  </div>
+  <div class="container" *ngIf="!event">
+    <div style="width: 80%; margin: 0px auto">
+      <h2>Event not found</h2>
+      <p>The event you're looking for can't be found.</p>
+      <button mat-raised-button color="accent" routerLink="/events">Go back</button>
+    </div>
+  </div>
+
+  
+  
+  

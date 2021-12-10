@@ -1,0 +1,41 @@
+
+<div class="container">
+  <h1>Events Admin</h1>
+  <mat-card> 
+    <mat-card-header (click)="showForm_Create = !showForm_Create">
+      Create a new event
+    </mat-card-header>
+    <mat-card-content *ngIf="showForm_Create">
+      <form [formGroup]="createForm" (ngSubmit)="createEvent()">
+        <formly-form [model]="model" [fields]="createFields" [options]="createOptions" [form]="createForm">
+          <button type="submit" mat-raised-button color="accent" [disabled]="!createForm.valid">Create</button>
+        </formly-form>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card style="margin-top: 5%;">
+    <mat-card-header (click)="showForm_Delete = !showForm_Delete">
+      Delete an event
+    </mat-card-header>
+    <mat-card-content *ngIf="showForm_Delete">
+      <form [formGroup]="deleteForm" (ngSubmit)="deleteEvent()">
+        <formly-form [model]="model" [fields]="deleteFields" [options]="deleteOptions" [form]="deleteForm">
+          <button type="submit" mat-raised-button color="accent" [disabled]="!deleteForm.valid">Delete</button>
+        </formly-form>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <div style="margin-top: 50px">
+    <h3>Available Events</h3>
+
+      <div style="margin-top: 5px" *ngFor="let event of events$ | async ">
+      
+          <app-event-card class="col-md-6 col-sm-12" *ngIf="event" [inputEvent]="event" >
+          </app-event-card>
+    
+      </div>
+
+  </div>
+
+</div>

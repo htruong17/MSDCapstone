@@ -1,0 +1,20 @@
+<div class="container" *ngIf="user">
+  <div style="width: 50%; margin: 0px auto; text-align: center">
+    <nz-avatar [nzSrc]="img" style="width: 120px; height: 120px"></nz-avatar>
+    <h1>{{user.name.display | titlecase }} Profile</h1>
+  </div>
+  <mat-tab-group>
+    <mat-tab label="Personal Information">
+      <div class="container">
+        <nz-collapse nzAccordion>
+          <nz-collapse-panel nzHeader="Edit User" nzActive="false">
+            <ng-container *ngIf="fields">
+              <app-basic-form [fields]="fields" [model]="model" (submitForm)="editUser()"
+                submitText="Update Profile"></app-basic-form>
+            </ng-container>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

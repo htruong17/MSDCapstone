@@ -1,132 +1,149 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormlyFieldConfig} from '@ngx-formly/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { PermissionService } from './permission.service';
+import { RoutingService } from './routing.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  // template: `
-  //   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  //     <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
-  //     <button type="submit" class="btn btn-default">Submit</button>
-  //   </form>
-  // `,
-  styleUrls: ['./app.component.css']
+  styles: [
+    `#drawer { background-color: #F1F5F9; height: calc(100% - 64px); margin-top: 64px;}`,
+    `.active-link { color: rgb(63, 81, 181);}`,
+    `.active-link:hover { background-color: rgba(153, 153, 153, 0.2);}`,
+    `.example-icon { padding: 0 14px; }`,
+    `.example-spacer { flex: 1 1 auto; }`,
+    `sidenav mat-drawer mat-sidenav ng-tns-c2-0 ng-trigger ng-trigger-transform mat-drawer-side mat-sidenav-fixed ng-star-inserted {
+      margin-top: 64px;
+    }`,
+    `mat-list#navBar::hover {
+      max-width: 180px;
+    }`,
+    `.logo {
+      width: 120px;
+      height: 31px;
+      background: rgba(255,255,255,.2);
+      margin: 16px 28px 16px 0;
+      float: left;
+    }`,
+    `.trigger {
+        font-size: 18px;
+        line-height: 64px;
+        padding: 0 24px;
+        cursor: pointer;
+        transition: color .3s;
+      }`,
+
+    `.trigger:hover {
+        color: #1890ff;
+      }`
+  ],
 })
-export class AppComponent {
-  // constructor(firestore: AngularFirestore){
+export class AppComponent implements OnInit{
+  navConfig: any = {
+    'closed': {
+      'router': {
+        'width': '100%',
+        'margin': '0px'
+      },
+      'sidebar': {
+        'width': '0px',
+        'display': 'none'
+      }
+    },
+    'semi-open': {
+      'router': {
+        'width': 'calc(100% - 70px)',
+        'margin': '70px'
+      },
+      'sidebar': {
+        'width': '70px',
+        'display': 'block'
+      }
+    },
+    'opened': {
+      'router': {
+        'width': 'calc(100% - 180px)',
+        'margin': '180px'
+      },
+      'sidebar': {
+        'width': '180px',
+        'display': 'block'
+      }
+    }
+  };
+  pageMeta = environment.pageMeta;
+  versionNumber = '1';
+  loggedIn = false;
+  sub: any = null;
+  handset = false;
+  sideBar = 'semi-open'; // closed, semi-open, opened
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches)
+    );
 
-  // }
+  routes: any = null;
 
-  title = 'MSDCapstone';
-  // form = new FormGroup({});
-  // model = { email: 'email@gmail.com' };
-  // fields: FormlyFieldConfig[] = [
-  //   {
-  //     key: 'name',
-  //     type: 'input',
-  //     templateOptions: {
-  //       label: 'Name',
-  //       placeholder: 'Enter name',
-  //     }
-  //   },
-  //   {
-  //     key: 'email',
-  //     type: 'input',
-  //     templateOptions: {
-  //       type: 'email',
-  //       label: 'Email',
-  //       placeholder: 'Enter email',
-  //     }
-  //   },
-  //   {
-  //     key: 'amount',
-  //     type: 'input',
-  //     templateOptions: {
-  //       type: 'number',
-  //       label: 'Amount',
-  //       placeholder: 'Enter amount',
-  //     }
-  //   },
-  //   {
-  //     key: 'date_of_birth',
-  //     type: 'datepicker',
-  //     templateOptions: {
-  //       label: 'Datepicker',
-  //       placeholder: 'Placeholder',
-  //       description: 'Description',
-  //       required: true,
-  //     },
-  //   },
-  //   {
-  //     key: 'terms',
-  //     type: 'checkbox',
-  //     templateOptions: {
-  //       label: 'Accept terms',
-  //       description: 'Please accept our terms',
-  //       required: true,
-  //     },
-  //   },
-  //   {
-  //     key: 'terms_1',
-  //     type: 'toggle',
-  //     templateOptions: {
-  //       label: 'Accept terms',
-  //       description: 'Please accept our terms',
-  //       required: true,
-  //     },
-  //   },
-  //   {
-  //     key: 'description',
-  //     type: 'textarea',
-  //     templateOptions: {
-  //       label: 'Description',
-  //       placeholder: 'Enter description',
-  //     }
-  //   },
-  //   {
-  //     key: 'gender',
-  //     type: 'radio',
-  //     templateOptions: {
-  //       label: 'Gender',
-  //       placeholder: 'Placeholder',
-  //       description: 'Fill in your gender',
-  //       options: [
-  //         { value: 1, label: 'Male' },
-  //         { value: 2, label: 'Femail' },
-  //         { value: 3, label: 'I don\'t want to share that' },
-  //       ],
-  //     },
-  //   },
-  // ];
-  // onSubmit() {
-  //   console.log(this.model);
-  // }
+  isCollapsed = false;
+  triggerTemplate: any = null;
+  @ViewChild('trigger') customTrigger: TemplateRef<void>;
+
+  /** custom trigger can be TemplateRef **/
+  changeTrigger(): void {
+    this.triggerTemplate = this.customTrigger;
+  }
+
+  /**
+   * Basic constructor
+   * @param breakpointObserver to determine page size
+   */
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public as: AuthService,
+    private ps: PermissionService,
+    private rs: RoutingService) { }
+  /**
+   * Initialize variables
+   */
+  ngOnInit() {
+    this.isHandset$.subscribe((r) => {
+      this.sideBar = (r) ? 'closed' : 'opened';
+
+    });
+    this.sub = this.as.currentUser$.subscribe((res1) => {
+      this.loggedIn = (res1) ? true : false;
+      this.routes = this.ps.getCurrentUserPermissions();
+    });
+  }
+
+  navigateLink(link: string) {
+   
+  }
+
+
+  changeSidebar(status: string) {
+    this.sideBar = status;
+   
+  }
+
+  toggleView() {
+    if (this.sideBar === 'semi-open') {
+      this.sideBar = 'closed';
+    } else if (this.sideBar === 'closed') {
+      this.sideBar = 'semi-open';
+    }
+  }
+
+  logOut(){
+    this.as.logout();
+  }
 }
 
-// import { Component } from '@angular/core';
-// import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/
-// import { Observable} from 'rxjs';
-// import { s } from 'rxjs/operator/map';
-// @Component({
-//   selector: 'app-root',
-//   templateUrl: './app.component.html',
-//   styleUrls: ['./app.component.css']
-// })
-// export class AppComponent {
-//   ref: AngularFireStorageReference;
-//   task: AngularFireUploadTask;
-//   uploadState: Observable<string>;
-//   uploadProgress: Observable<number>;
-//   downloadURL: Observable<string>;
-//   constructor(private afStorage: AngularFireStorage) { }
-//   upload(event) {
-//     const id = Math.random().toString(36).substring(2);
-//     this.ref = this.afStorage.ref(id);
-//     this.task = this.ref.put(event.target.files[0]);
-//     this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
-//     this.uploadProgress = this.task.percentageChanges();
-//     this.downloadURL = this.task.downloadURL();
-//   }
-// }

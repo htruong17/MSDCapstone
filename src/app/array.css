@@ -1,0 +1,38 @@
+.btn {
+    /* color: red; */
+    width:auto;
+    display: block;
+    /* background-color: blue; */
+    
+}
+
+.mb-3 {
+    width:auto;
+}
+
+/* .row {
+    background-color: blueviolet;
+    width:auto;
+    display:inline;
+}
+
+.col {
+
+    background-color: red;
+} */
+
+.col-2 {
+    display: inline;
+}
+
+/* .d-flex {
+    background-color: aqua;
+}
+
+.alert {
+    background-color: black;
+}
+
+.form-group {
+    background-color: red;
+} */

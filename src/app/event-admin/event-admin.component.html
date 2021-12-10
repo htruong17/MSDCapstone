@@ -1,0 +1,30 @@
+<div class="container-fluid" *ngIf="event">
+    <mat-card style="margin: 20px 0px">
+      <mat-card-header>
+        <mat-card-title>
+          <h1>Event page</h1>
+        </mat-card-title>
+      </mat-card-header>
+    </mat-card>
+    <mat-tab-group>
+      <mat-tab label="Registered Attendees">
+        <div style="padding: 10px 20px;">
+          <mat-paginator #resultsPaginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
+        </div>
+      </mat-tab>
+      <mat-tab label="Forms">
+        <div style="margin-top: 50px">
+          <h3>Select a form to use</h3>
+            <div style="margin-top: 5px" *ngFor="let form of forms$ | async">
+            
+                <app-form-card class="col-md-6 col-sm-12" *ngIf="form" [inputForm]="form" [inputEvent]="event">
+                </app-form-card>
+          
+            </div>
+      
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  
+  
+  </div>

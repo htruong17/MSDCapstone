@@ -1,0 +1,54 @@
+{
+    "schema": {
+      "title": "Create Your Forms",
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "properties": {
+          "formName":{
+            "type": "string",
+            "title": "Name of your form"
+          },
+        "schema": {
+          "type": "array",
+          "items": {
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "title": "Types of Questions",
+                    "enum": [
+                        "input"
+                    ],
+                    "default": "input"
+                }
+            },
+            "dependencies": {
+                "type": {
+                    "oneOf": [
+                        {
+                            "properties": {
+                                "type": {
+                                    "enum": [
+                                        "input"
+                                    ]
+                                },
+                                "title": {
+                                    "type": "input",
+                                    "title": "Question"
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+              
+          }
+        }
+     
+        }
+    },
+    "model": {
+        "title": "Question"
+    }
+}

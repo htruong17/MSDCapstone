@@ -1,0 +1,18 @@
+<nz-card nzHoverable style="min-height: 50px" *ngIf="inputEvent && isAdmin == false" [nzActions]="[actionSetting]">
+    <nz-card-meta [nzTitle]="inputEvent.eventName"></nz-card-meta>
+  </nz-card>
+  <nz-card nzHoverable style="min-height: 50px" *ngIf="inputEvent && isAdmin != false"  [nzActions]="[actionSetting]">
+    <nz-card-meta [nzTitle]="inputEvent.eventNameID"></nz-card-meta>
+  </nz-card>
+  <ng-template  #actionSetting>
+      <button nz-button  nzType="primary"  [disabled]="inputEvent.active == true" hidden="{{isAdmin}}" (click)="activateEvent(inputEvent.eventID)" nzBlock>
+        Activate
+      </button>
+      <button nz-button  nzType="primary" [disabled]="inputEvent.active == false" hidden="{{isAdmin}}" (click)="deactivateEvent(inputEvent.eventID)" nzBlock>
+        Deactivate
+      </button>
+      <button nz-button  nzType="primary" [routerLink]="inputEvent.eventID" nzBlock>
+        More
+      </button>
+  </ng-template>
+  

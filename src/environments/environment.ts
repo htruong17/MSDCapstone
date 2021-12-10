@@ -13,6 +13,10 @@ export const environment = {
     messagingSenderId: "417953233173",
     appId: "1:417953233173:web:03aebf4935b5ee63ae111c",
     measurementId: "G-RS2DLKDK5C"
+  },
+  pageMeta: {
+    title: 'MSDProject',
+    orgName: 'MSD',
   }
 };
 

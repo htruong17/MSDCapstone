@@ -1,0 +1,14 @@
+<div class="container"  *ngIf="events$">
+    <h1>All Events</h1>
+    <div class="row" style="margin-top: 10px" *ngIf="events$ | async as events;">
+      <ng-container *ngIf="events.length > 0; else noItems">
+        <app-event-card *ngFor="let event of events" [isAdmin]="false" class="col-sm-12" style="margin: 10px 0px"
+          [inputEvent]="event">
+        </app-event-card>
+      </ng-container>
+      <ng-template class="min-width: 200px; margin: 0px auto;" #noItems>
+        <nz-empty nzNotFoundContent="No active events"></nz-empty>
+      </ng-template>
+    </div>
+  </div>
+  

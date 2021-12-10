@@ -1,0 +1,38 @@
+{
+    "schema": {
+      "type": "object",
+      "required": [
+        "title",
+        "name",
+        "bio",
+        "about"
+
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "title": "Workshop Title"
+        },
+            "name": {
+              "type": "string",
+              "title": "Presenter's Name"
+            },
+            "bio": {
+              "type": "textarea",
+              "title": "Presenter's Biography",
+              "description": "Please enter a brief introduction about the presenter"
+            },
+            
+            "about": {
+              "type": "textarea",
+              "title": "About the Workshop",
+              "description": "Please enter a thorough description of the workshop"
+            }
+    
+        
+          
+        
+      }
+    },
+    "model": {}
+  }

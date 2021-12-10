@@ -1,0 +1,9 @@
+<nz-card nzHoverable style="min-height: 50px" *ngIf="inputEvent" [nzActions]="[actionSetting]">
+    <nz-card-meta [nzTitle]="inputForm.formName"></nz-card-meta>
+  </nz-card>
+  <ng-template  #actionSetting>
+      <button nz-button  nzType="primary"   [disabled]="inputForm.formName == inputEvent.formName" (click)="setForm(inputEvent.eventID,inputForm.formName)" nzBlock>
+        Select
+      </button>
+  </ng-template>
+  
